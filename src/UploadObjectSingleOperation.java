@@ -7,14 +7,23 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import java.util.Calendar;
 
 public class UploadObjectSingleOperation {
 
-    private static final String BUCKET_NAME = "solucxlojasmm";
-    private static final String KEY_NAME = "output";
-    private static final String UPLOAD_FILE_NAME = "output.csv";
+
+    private static String BUCKET_NAME = "solucxlojasmm";
+    private static String KEY_NAME = "";
+    private static String UPLOAD_FILE_NAME = "";
     private static final BasicAWSCredentials AWS_CREDENTIALS = new BasicAWSCredentials("AKIAJ72DLKXBK7CU7G7Q", "z1E8oLB92QVvGBEscjqWAVYeD9UJZ4Zmo3l0X6p5");
 
+    public UploadObjectSingleOperation(String arquivo) {
+        UPLOAD_FILE_NAME = arquivo;
+        KEY_NAME = arquivo;
+    }
+
+    
+    
     public boolean upload() {
         AmazonS3 s3client = new AmazonS3Client(AWS_CREDENTIALS);
         try {

@@ -21,7 +21,7 @@ public class Arquivo {
         
         String conteudo = "";
         try {
-            byte[] encoded = Files.readAllBytes(Paths.get("final.sql"));
+            byte[] encoded = Files.readAllBytes(Paths.get("7dias.sql"));
             conteudo = new String(encoded, "UTF-8");
         } catch (IOException ex) {
             Logger.getLogger(Arquivo.class.getName()).log(Level.SEVERE, null, ex);

@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,20 +24,37 @@ public class Main {
     public static void main(String[] args) {
         Conexao conexao = new Conexao();
         Connection basededados = conexao.conectar();
-
+        String filename = "";
         if (basededados != null) {
             try {
                 Statement stm;
                 ResultSet dadosBrutos;
-                try (PrintWriter writer = new PrintWriter("output.csv", "UTF-8")) {
-                    writer.println("\"Id da transacao\",\"Id da unidade\",\"Id do colaborador\",\"Data da compra\",\"Id do cliente\",\"Nome do cliente\",\"Sexo do cliente\",\"Telefone do cliente\",\"Telefone Adicional do cliente\",\"E-mail do cliente\",\"CPF do cliente\",\"valor compra\",\"Tipo de cartão fidelidade\"");
+                int year = Calendar.getInstance().get(Calendar.YEAR);
+                int monthI = Calendar.getInstance().get(Calendar.MONTH) + 1;
+                int dayI = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+
+                String month = String.valueOf(monthI);
+                String day = String.valueOf(dayI);
+
+                if (monthI < 10) {
+                    month = "0" + month;
+                }
+
+                if (dayI < 10) {
+                    day = "0" + day;
+                }
+
+                filename = String.valueOf(year) + String.valueOf(month) + String.valueOf(day) + "_transacoes.csv";
+                try (PrintWriter writer = new PrintWriter(filename, "UTF-8")) {
+                    writer.println("\"Id da transacao\",\"Id da unidade\",\"Id do colaborador\",\"Data da compra\",\"Id do cliente\",\"Nome do cliente\",\"Sexo do cliente\",\"Telefone do cliente\",\"Telefone Adicional do cliente\",\"E-mail do cliente\",\"CPF do cliente\",\"valor compra\"");
                     Arquivo arquivo = new Arquivo();
                     String sql = arquivo.lerArquivoSQL();
                     stm = (Statement) basededados.createStatement();
                     dadosBrutos = stm.executeQuery(sql);
                     while (dadosBrutos.next()) {
+
                         String idTransacao = dadosBrutos.getString(1);
-                        String idCancelamento = dadosBrutos.getString(2);
+                        String idCPNJCPF = dadosBrutos.getString(2);
                         String idFilial = dadosBrutos.getString(3);
                         String idColaborador = dadosBrutos.getString(4);
                         String dia = dadosBrutos.getString(5);
@@ -48,11 +66,7 @@ public class Main {
                         String email = dadosBrutos.getString(11);
                         String cpf = dadosBrutos.getString(12);
                         String valor = String.valueOf(dadosBrutos.getFloat(13));
-                        
-                        if (idCancelamento == null) {
-                            idFilial = String.valueOf(Integer.valueOf(idFilial) + 10000);
-                        }
-                        
+
                         String linha = "\"" + idTransacao + "\","
                                 + "\"" + idFilial + "\","
                                 + "\"" + idColaborador + "\","
@@ -65,16 +79,16 @@ public class Main {
                                 + "\"" + email + "\","
                                 + "\"" + cpf + "\","
                                 + "\"" + valor + "\"";
-                        
+
                         System.out.println(linha);
                         writer.println(linha);
                     }
                 }
                 dadosBrutos.close();
                 stm.close();
-                UploadObjectSingleOperation aws = new UploadObjectSingleOperation();
+                UploadObjectSingleOperation aws = new UploadObjectSingleOperation(filename);
                 boolean upload = aws.upload();
-                if(upload){
+                if (upload) {
                     System.out.println("Arquivo enviado para S3 com sucesso");
                 }
             } catch (SQLException | FileNotFoundException | UnsupportedEncodingException ex) {
