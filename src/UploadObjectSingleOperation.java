@@ -22,8 +22,6 @@ public class UploadObjectSingleOperation {
         KEY_NAME = arquivo;
     }
 
-    
-    
     public boolean upload() {
         AmazonS3 s3client = new AmazonS3Client(AWS_CREDENTIALS);
         try {

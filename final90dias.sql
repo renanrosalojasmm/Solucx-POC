@@ -10,15 +10,18 @@ SELECT DISTINCT pv.idpedidovenda as "Id da transacao",
        '' as "Telefone Adicional do cliente",
        pa.email as "E-mail do cliente",
        p.cnpj_cpf as "CPF do cliente",
-       pv.totalrealizadoavista::money::numeric::float8 as "valor compra"
+       pv.totalrealizadoavista::money::numeric::float8 as "valor compra",
+       pv.entregar as "Entregar",
+       pr.possuimontagem as "Montagem"
   FROM rst.pedidovenda pv
   join glb.referenciapessoal rf on pv.idcnpj_cpf = rf.idcnpj_cpf 
   join glb.pessoa p on pv.idcnpj_cpf = p.idcnpj_cpf 
   join glb.pessoaauxiliar pa on pv.idcnpj_cpf = pa.idcnpj_cpf
   join sis.tiposexo ts on ts.idtiposexo = p.idtiposexo
   join glb.telefone t on t.idcnpj_cpf = p.idcnpj_cpf
+  join rst.itembase ib on ib.idpedidovenda = pv.idpedidovenda and ib.idfilial = pv.idfilial
+  join glb.produto pr on pr.idproduto = ib.idproduto
   where	
-	
 	pv.idsituacaopedidovenda in (3,4) and
 	pv.nome not like '' and
 	pv.datainclusao between now() - interval '97 days' and now() - interval '7 days' and

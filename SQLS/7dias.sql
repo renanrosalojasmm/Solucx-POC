@@ -26,4 +26,6 @@ SELECT DISTINCT pv.idpedidovenda as "Id da transacao",
 	pv.nome not like '' and
 	pv.datainclusao between now() - interval '7 days' and now() and
 	pv.idfilial > 10001 and
-	(t.idtipotelefone = 2 or t.idtipotelefone = 1 and t.numero not like '')
+	t.numero not like '' and
+	t.numero not like '3%'-- and
+  --t.idtipotelefone = 2

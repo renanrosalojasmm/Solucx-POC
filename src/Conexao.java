@@ -28,8 +28,8 @@ public class Conexao {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(
-                    "jdbc:postgresql://10.102.0.238:5432/sabium", "renan.rosa",
-                    "@kindness2018");
+                    "jdbc:postgresql://10.102.0.238:5432/sabium", "servicesolucx",
+                    "okmijn123$");
         } catch (SQLException e) {
             System.out.println("Falha na conexão, verifique o log");
             e.printStackTrace();

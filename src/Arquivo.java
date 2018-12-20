@@ -2,6 +2,7 @@
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,11 +18,13 @@ import java.util.logging.Logger;
  */
 public class Arquivo {
     
-    public String lerArquivoSQL() {
+    public String lerArquivoSQL(String arquivo) {
         
         String conteudo = "";
+        
         try {
-            byte[] encoded = Files.readAllBytes(Paths.get("7dias.sql"));
+            byte[] encoded = Files.readAllBytes(Paths.get(arquivo));
+           // byte[] encoded = Files.readAllBytes(Paths.get("final90dias.sql"));
             conteudo = new String(encoded, "UTF-8");
         } catch (IOException ex) {
             Logger.getLogger(Arquivo.class.getName()).log(Level.SEVERE, null, ex);
