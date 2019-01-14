@@ -15,7 +15,7 @@ public class UploadObjectSingleOperation {
     private static String BUCKET_NAME = "solucxlojasmm";
     private static String KEY_NAME = "";
     private static String UPLOAD_FILE_NAME = "";
-    private static final BasicAWSCredentials AWS_CREDENTIALS = new BasicAWSCredentials("AKIAJ72DLKXBK7CU7G7Q", "z1E8oLB92QVvGBEscjqWAVYeD9UJZ4Zmo3l0X6p5");
+    private static final BasicAWSCredentials AWS_CREDENTIALS = new BasicAWSCredentials("AKIAJDLH2QHYRKXLSUQA", "npckHBuYibNj8rGdz6W4BZEU7GcpHI6LJJy9Nui7");
 
     public UploadObjectSingleOperation(String arquivo) {
         UPLOAD_FILE_NAME = arquivo;
